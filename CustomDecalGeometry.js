@@ -13,7 +13,7 @@
  *
  */
 
-THREE.DecalGeometry = function ( mesh, position, orientation, size ) {
+THREE.DecalGeometry = function ( camera, mesh, position, orientation, size ) {
 
 	THREE.BufferGeometry.call( this );
 
