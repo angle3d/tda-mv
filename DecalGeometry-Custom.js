@@ -170,7 +170,9 @@ THREE.DecalGeometry = function ( camera, mesh, position, orientation, size ) {
 		// which consists of three consecutive 'DecalVertex' objects
 
 		for ( var i = 0; i < inVertices.length; i += 3 ) {
-
+			if (!inVertices[ i + 0 ] || !inVertices[ i + 1 ] || !inVertices[ i + 2 ]) {
+				continue;
+			    }
 			var v1Out, v2Out, v3Out, total = 0;
 			var nV1, nV2, nV3, nV4;
 
