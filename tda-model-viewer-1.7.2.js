@@ -50151,8 +50151,7 @@ async function imgToU8( image ) {
 	if ( ( typeof HTMLImageElement !== 'undefined' && image instanceof HTMLImageElement ) ||
 		( typeof HTMLCanvasElement !== 'undefined' && image instanceof HTMLCanvasElement ) ||
 		( typeof OffscreenCanvas !== 'undefined' && image instanceof OffscreenCanvas ) ||
-		( typeof ImageBitmap !== 'undefined' && image instanceof ImageBitmap ) ||
-    (image.width && image.height) ) {
+		( typeof ImageBitmap !== 'undefined' && image instanceof ImageBitmap ) ) {
 
 		const scale = 1024 / Math.max( image.width, image.height );
 
