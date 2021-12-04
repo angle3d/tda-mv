@@ -1405,7 +1405,7 @@ canvas.show {
         </div>
       </slot>
     </div>
-    
+
     <div class="slot exit-webxr-ar-button">
       <slot name="exit-webxr-ar-button">
         <a id="default-exit-webxr-ar-button" part="default-exit-webxr-ar-button"
@@ -50151,7 +50151,8 @@ async function imgToU8( image ) {
 	if ( ( typeof HTMLImageElement !== 'undefined' && image instanceof HTMLImageElement ) ||
 		( typeof HTMLCanvasElement !== 'undefined' && image instanceof HTMLCanvasElement ) ||
 		( typeof OffscreenCanvas !== 'undefined' && image instanceof OffscreenCanvas ) ||
-		( typeof ImageBitmap !== 'undefined' && image instanceof ImageBitmap ) ) {
+		( typeof ImageBitmap !== 'undefined' && image instanceof ImageBitmap ) ||
+    (image.width && image.height) ) {
 
 		const scale = 1024 / Math.max( image.width, image.height );
 
