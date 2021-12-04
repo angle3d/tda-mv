@@ -50109,7 +50109,10 @@ class USDZExporter {
 		for ( const uuid in textures ) {
 
 			const texture = textures[ uuid ];
-			files[ 'textures/Texture_' + texture.id + '.jpg' ] = await imgToU8( texture.image );
+			const convertedImg = await imgToU8( texture.image );
+			if (convertedImg) {
+        files[ 'textures/Texture_' + texture.id + '.jpg' ] = convertedImg;
+      }
 
 		}
 
