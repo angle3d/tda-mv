@@ -50094,7 +50094,6 @@ class USDZExporter {
 				if ( material.roughnessMap !== null ) textures[ material.roughnessMap.uuid ] = material.roughnessMap;
 				if ( material.metalnessMap !== null ) textures[ material.metalnessMap.uuid ] = material.metalnessMap;
 				if ( material.emissiveMap !== null ) textures[ material.emissiveMap.uuid ] = material.emissiveMap;
-				if ( material.alphaMap !== null ) textures[ material.alphaMap.uuid ] = material.alphaMap;
 
 				output += buildXform( object, buildMesh( geometry, material ) );
 
@@ -50412,16 +50411,6 @@ function buildMaterial( material ) {
 
 	}
 
-	if ( material.alphaMap !== null ) {
-
-		parameters.push( `${ pad }float inputs:opacity.connect = </Textures/Texture_${ material.alphaMap.id }.outputs:a>` );
-
-	} else {
-
-		parameters.push( `${ pad }float inputs:opacity = ${ material.opacity }` );
-
-	}
-
 	return `
     def Material "Material_${ material.id }"
     {
@@ -50472,7 +50461,6 @@ function buildTexture( texture ) {
         float outputs:r
         float outputs:g
         float outputs:b
-		float outputs:a
         float3 outputs:rgb
     }
 `;
