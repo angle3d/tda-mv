@@ -50112,8 +50112,9 @@ class USDZExporter {
 			const texture = textures[ uuid ];
 			const convertedImg = await imgToU8( texture.image );
 			if (convertedImg) {
-        files[ 'textures/Texture_' + texture.id + '.jpg' ] = convertedImg;
-      }
+              const imageExtension = texture.image && texture.image.currentSrc && texture.image.currentSrc.includes('.png') ? '.png' : '.jpg';
+              files[ 'textures/Texture_' + texture.id + imageExtension ] = convertedImg;
+            }
 
 		}
 
@@ -50166,7 +50167,8 @@ async function imgToU8( image ) {
 		const context = canvas.getContext( '2d' );
 		context.drawImage( image, 0, 0, canvas.width, canvas.height );
 
-		const blob = await new Promise( resolve => canvas.toBlob( resolve, 'image/jpeg', 1 ) );
+        const mimeType = image && image.currentSrc && image.currentSrc.includes('.png') ? 'image/png' : 'image/jpeg';
+		const blob = await new Promise( resolve => canvas.toBlob( resolve, mimeType, 1 ) );
 		return new Uint8Array( await blob.arrayBuffer() );
 
 	}
@@ -50364,6 +50366,17 @@ function buildMaterial( material ) {
 
 		parameters.push( `${ pad }color3f inputs:diffuseColor.connect = </Textures/Texture_${ material.map.id }.outputs:rgb>` );
 
+        if ( material.transparent ) {
+
+			parameters.push( `${ pad }float inputs:opacity.connect = </Textures/Texture_${ material.map.id }.outputs:a>` );
+
+		} else if ( material.alphaTest > 0.0 ) {
+
+			parameters.push( `${ pad }float inputs:opacity.connect = </Textures/Texture_${ material.map.id }.outputs:a>` );
+			parameters.push( `${ pad }float inputs:opacityThreshold = ${material.alphaTest}` );
+
+		}
+
 	} else {
 
 		parameters.push( `${ pad }color3f inputs:diffuseColor = ${ buildColor( material.color ) }` );
@@ -50463,12 +50476,12 @@ ${ array.join( '' ) }
 }
 
 function buildTexture( texture ) {
-
+    const imageExtension = texture.image && texture.image.currentSrc && texture.image.currentSrc.includes('.png') ? '.png' : '.jpg';
 	return `
     def Shader "Texture_${ texture.id }"
     {
         uniform token info:id = "UsdUVTexture"
-        asset inputs:file = @textures/Texture_${ texture.id }.jpg@
+        asset inputs:file = @textures/Texture_${ texture.id }${ imageExtension }@
         token inputs:wrapS = "repeat"
         token inputs:wrapT = "repeat"
         float outputs:r
