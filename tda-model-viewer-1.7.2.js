@@ -966,10 +966,12 @@ const IS_ANDROID = /android/i.test(navigator.userAgent);
 // @see https://github.com/google/model-viewer/issues/758
 const IS_IOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) && !self.MSStream) ||
     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+const IS_IOS_CHROME = /CriOS/i.test(navigator.userAgent || navigator.vendor || window.opera);
 const IS_AR_QUICKLOOK_CANDIDATE = (() => {
     const tempAnchor = document.createElement('a');
     return Boolean(tempAnchor.relList && tempAnchor.relList.supports &&
-        tempAnchor.relList.supports('ar'));
+        tempAnchor.relList.supports('ar') || IS_IOS_CHROME);
 })();
 // @see https://developer.chrome.com/multidevice/user-agent
 /Safari\//.test(navigator.userAgent);
